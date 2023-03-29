@@ -1,5 +1,3 @@
-package com.tuling.jucdemo.threadactiveness;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**

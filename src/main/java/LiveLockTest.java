@@ -1,5 +1,3 @@
-package com.tuling.jucdemo.threadactiveness;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -60,6 +58,8 @@ public class LiveLockTest {
                             log.info( "{}：亲爱的我饿了，然后{}把勺子给了{}",
                                     diner.getName(),name,diner.getName());
                             sharedSpoon.setOwner(diner);
+                            //
+                            sharedSpoon.use();
                             //唤醒等待的线程
                             sharedSpoon.notifyAll();
                         } else {
@@ -89,14 +89,12 @@ public class LiveLockTest {
     public static void main(String[] args) {
         final Diner husband = new Diner(true, "丈夫");
         final Diner wife = new Diner(true, "妻子");
-        //最开始牛郎持有勺子
+        //最开始 丈夫持有勺子
         final Spoon sharedSpoon = new Spoon(husband);
 
-        //织女和牛郎吃饭
         Thread h = new Thread(()->wife.eatWith(husband, sharedSpoon));
         h.start();
 
-        //牛郎和织女吃饭
         Thread w = new Thread(()->husband.eatWith(wife, sharedSpoon));
         w.start();
 
